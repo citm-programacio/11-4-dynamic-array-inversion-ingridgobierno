@@ -1,20 +1,79 @@
-// 11-4-dynamic-array-inversio.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
+#include <string>
+using namespace std;
+
+class ArrayDinamica {
+private:
+	int size = 0;
+	int capacity;
+	int* array;
+public:
+	ArrayDinamica() {
+		size = 10;
+		array = new int[capacity];
+	}
+	ArrayDinamica(int cap) {
+		capacity = cap;
+		array = new int[capacity];
+	}
+
+	void insert(int newElement, int position) {
+		if (capacity <= size) {//si la capacitat es igual o menor als elements que hi ha a la array 
+			capacity *= 2; //la capacitat es duplica
+		}
+		int* newArray = new int[capacity]; //crea nova array amb la capacitat
+		size++; //amplia el nombre d'elements +1
+		int i; // crear variavle de iteració
+		for (i = 0; i < position; i++) { //fas for, per anar fins la position
+			newArray[i] = array[i];
+		}
+		newArray[i] = newElement; //insertem el new element a la posició d'i.
+		i++; //passem a la seguent posició, s'han avançat dues posicions contant l'ultima.
+		while (i < size) {
+			newArray[i] = array[i - 1];
+			i++;
+		}
+		delete[] array;
+		array = newArray;
+		
+	}
+	void invert(){
+		int* newArray = new int[capacity];
+		int j = 0;
+		for (int i = size; i >= 0; i--) {
+			newArray[j] = array[i-1];
+			j++;
+		}
+	
+		delete[] array;
+		array = newArray;
+	}
+	void print() {
+		cout << "{";
+		for (int i = 0; i < size; i++) {
+			cout << array[i] << ", ";
+		}
+		cout << "}" << endl;
+	}
+};
+
 
 int main()
 {
-    std::cout << "Hello World!\n";
+	ArrayDinamica a(10);
+	a.insert(1, 0);
+	a.insert(2, 1);
+	a.insert(3, 2);
+	a.insert(4, 3);
+	a.insert(5, 4);
+	a.insert(6, 5);
+	a.insert(7, 6);
+	a.print();
+	
+	a.invert();
+	a.print();
+
+
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
